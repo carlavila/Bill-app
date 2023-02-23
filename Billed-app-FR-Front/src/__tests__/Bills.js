@@ -28,12 +28,22 @@ describe("Given I am connected as an employee", () => {
       //to-do write expect expression
 
     })
-    test("Then bills should be ordered from earliest to latest", () => {
-      document.body.innerHTML = BillsUI({ data: bills })
-      const dates = screen.getAllByText(/^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$/i).map(a => a.innerHTML)
-      const antiChrono = (a, b) => ((a < b) ? 1 : -1)
+    /* Test tri dates ordre décroissant  */
+    test("Then bills should be ordered from earliest to latest", () => {     
+      // const dates = screen.getAllByText(/^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$/i)
+      // .map((a) => a.innerHTML);
+      //  const antiChrono = (a, b) => (a.date < b.date ? -1 : 1)
+      const html = BillsUI({ data: bills })
+      document.body.innerHTML = html
+      /*  à l'écran, affichage dates par le format : 1 à 2 chiffres pour le jour,
+      Une lettre majuscule + 2 lettres minuscule + un point  pour le mois
+      2 chiffres pour l'année  */
+      const dates = screen.getAllByText(/(\d{1,2}\s[A-Za-zÀ-ÖØ-öø-ÿ]{3}\.\s\d{2})/i)
+      .map((a) => a.innerHTML)
+     /* utilisation de l'objet new Date sinon trie alphanumérique à cause du format du mois   */
+      const antiChrono = (a, b) => (new Date(a.date) < new Date(b.date) ? -1 : 1)
       const datesSorted = [...dates].sort(antiChrono)
-      expect(dates).toEqual(datesSorted)
+      expect(dates).toEqual(datesSorted)       
     })
   })
 })
