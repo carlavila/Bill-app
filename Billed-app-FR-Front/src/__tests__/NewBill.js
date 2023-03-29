@@ -184,7 +184,6 @@
  
        newBill.fileName = sampleBill.fileName
        newBill.fileUrl = sampleBill.fileUrl
- // TODO remplacer la fonction update avec un spyOn
        newBill.updateBill = jest.fn() // crée fonction d'update
        const handleSubmit = jest.fn((e) => newBill.handleSubmit(e)) // crée fonction de submit
  
